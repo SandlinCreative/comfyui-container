@@ -1,0 +1,45 @@
+name: $(Build.DefinitionName).$(Date:yyMMdd).$(Date:hhmm).$(Build.RequestedFor).$(Rev:r)
+
+variables:
+  - name: resourceManagerConnection
+    value: "Devops Pipeline ARM Template Deployment"
+
+parameters:
+  - name: appName
+    displayName: "Name of Application"
+    type: string
+
+  - name: region
+    displayName: "Region to Deploy Resources"
+    type: string
+    values:
+      - centralus
+      - eastus
+      - eastus2
+      - westus
+
+  - name: env
+    displayName: "Environment to Deploy"
+    type: string
+    values:
+      - prd
+      - stg
+      - dev
+
+steps:
+  - checkout: self
+
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Deploy Bicep (subscription scope)"
+    inputs:
+      deploymentScope: 'Subscription'
+      azureResourceManagerConnection: '$(resourceManagerConnection)'
+      location: '${{ parameters.region }}'
+      templateLocation: 'Linked artifact'
+      csmFile: 'comfyui/azure-scripts/bicep-templates/All.bicep'
+      overrideParameters: >
+        -appName ${{ parameters.appName }}
+        -environment ${{ parameters.env }}
+        -location ${{ parameters.region }}
+      deploymentMode: 'Incremental'
+      deploymentName: '$(Build.DefinitionName)-$(Build.BuildId)'
