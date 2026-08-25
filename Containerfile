@@ -54,7 +54,7 @@ COPY --from=node-reqs /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:${PATH}"
 
 # Copy only the ready-to-run environment and your app code
-COPY app/ ./
+COPY ComfyUI/ ./
 
 EXPOSE 8188
 
