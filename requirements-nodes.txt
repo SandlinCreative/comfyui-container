@@ -46,3 +46,4 @@ git+https://github.com/facebookresearch/sam2
 
 onnxruntime-gpu
 insightface
+comfyui_manager==4.2.2

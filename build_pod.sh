@@ -1,1 +1,1 @@
-podman build .
+TMPDIR="$HOME/.cache/podman-tmp" podman build .
