@@ -19,7 +19,7 @@ iopath>=0.1.9
 GitPython
 PyGithub
 matrix-nio
-transformers
+transformers>=4.48.3
 huggingface-hub
 typer
 rich
@@ -32,18 +32,47 @@ mediapipe==0.10.13
 
 # ComfyUI-GGUF
 gguf==0.13.0
-sentencepiece
+sentencepiece>=0.1.99
 protobuf
 
 segment-anything
-scikit-image
+scikit-image>=0.20.0
 piexif
-transformers
 scipy>=1.11.4
-numpy
+numpy>=1.26.4
 dill
 git+https://github.com/facebookresearch/sam2
 
 onnxruntime-gpu
 insightface
 comfyui_manager==4.2.2
+
+pywavelets
+scipy
+ultralytics
+color-matcher
+spandrel
+pedalboard
+wordcloud
+librosa
+imageio-ffmpeg
+soundfile
+huggingface_hub>=0.27
+einops>=0.6
+rotary-embedding-torch
+openai-whisper
+faster-whisper>=1.1
+omnivoice>=0.1.0
+accelerate>=1.0
+timm>=0.9
+tqdm>=4.66
+
+fairscale>=0.4.4
+git+https://github.com/ltdrdata/img2texture.git
+git+https://github.com/ltdrdata/cstr
+joblib
+numba>=0.62
+pilgram
+git+https://github.com/ltdrdata/ffmpy.git
+rembg
+scikit-learn

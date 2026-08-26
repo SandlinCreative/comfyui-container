@@ -1,1 +1,1 @@
-TMPDIR="$HOME/.cache/podman-tmp" podman build .
+TMPDIR="$HOME/.cache/podman-tmp" podman build -t comfyui:new .
