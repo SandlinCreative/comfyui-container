@@ -1,6 +1,6 @@
 # Containerized ComfyUI
 
-This project builds and runs [ComfyUI](https://github.com/Comfy-Org/ComfyUI) in a
+This project builds and runs [ComfyUI](https://github.com/SandlinCreative/ComfyUI) in a
 Podman container with NVIDIA GPU access. The image includes ComfyUI's Python
 dependencies, a consolidated set of custom-node dependencies, `ffmpeg`, and
 ComfyUI Manager support.
@@ -16,13 +16,27 @@ ComfyUI Manager support.
 - `build_pod.sh` — builds the image as `comfyui:new2`.
 - `run_pod.sh` — starts the container with GPU access and persistent mounts.
 
+## Clone the repository
+
+Clone with the ComfyUI submodule initialized:
+
+```bash
+git clone --recurse-submodules <repository-url>
+```
+
+For an existing clone, initialize or update it with:
+
+```bash
+git submodule update --init --recursive
+```
+
 ## Prerequisites
 
 - Podman with support for Containerfiles and BuildKit-style cache mounts.
 - An NVIDIA GPU with a working driver.
 - NVIDIA Container Toolkit configured so Podman recognizes
   `nvidia.com/gpu=all`.
-- A populated `ComfyUI/` source directory.
+- The `ComfyUI/` submodule initialized as described above.
 
 The default PyTorch package index targets CUDA 13.0. If your driver or GPU setup
 requires a different build, override `TORCH_INDEX_URL` as described below.
