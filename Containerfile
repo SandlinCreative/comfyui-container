@@ -13,6 +13,7 @@ RUN apt-get update && \
         git \
         g++ \
         build-essential \
+        ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
 
@@ -40,10 +41,10 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 FROM builder AS node-reqs
 
 # Install custom node requirements
-COPY requirements-nodes.txt .
+COPY custom-node-reqs.txt .
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --no-cache-dir \
-      -r requirements-nodes.txt
+      -r custom-node-reqs.txt
 
 
 # ---------- Stage 3: App image ----------
