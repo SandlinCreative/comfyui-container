@@ -9,7 +9,7 @@ ComfyUI Manager support.
 
 - `ComfyUI/` — ComfyUI application source copied into the image.
 - `Containerfile` — multi-stage Python 3.11 container build.
-- `requirements-app.txt` — core ComfyUI Python dependencies.
+- `requirements.txt` — consolidated core ComfyUI and custom-node dependencies.
 - `custom-node-reqs.txt` — dependencies required by the installed custom nodes.
 - `combine_requirements.py` — utility for combining requirements from multiple
   custom nodes.
