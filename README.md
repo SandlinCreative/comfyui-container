@@ -3,7 +3,8 @@
 This project builds and runs [ComfyUI](https://github.com/SandlinCreative/ComfyUI) in a
 Podman container with NVIDIA GPU access. The image includes ComfyUI's Python
 dependencies, a consolidated set of custom-node dependencies, `ffmpeg`, and
-ComfyUI Manager support.
+ComfyUI Manager support. SageAttention 2.2.0 is compiled for the target GPU and
+enabled by default.
 
 ## Repository layout
 
@@ -39,7 +40,9 @@ git submodule update --init --recursive
 - The `ComfyUI/` submodule initialized as described above.
 
 The default PyTorch package index targets CUDA 13.0. If your driver or GPU setup
-requires a different build, override `TORCH_INDEX_URL` as described below.
+requires a different build, override `TORCH_INDEX_URL` as described below. The
+default SageAttention build targets compute capability 8.6 (Ampere, including
+the RTX 3060 Ti).
 
 ## Build
 
@@ -62,9 +65,15 @@ To select another PyTorch wheel index or image tag, invoke Podman directly:
 ```bash
 podman build \
   --build-arg TORCH_INDEX_URL=https://download.pytorch.org/whl/cu130 \
+  --build-arg SAGEATTENTION_CUDA_ARCH=8.6 \
   -t comfyui:local \
   .
 ```
+
+Set `SAGEATTENTION_CUDA_ARCH` to the target GPU's CUDA compute capability when
+building for a different architecture. SageAttention is built from its pinned
+upstream commit in the CUDA-enabled builder stage; the CUDA compiler is not
+included in the final runtime image.
 
 ## Run
 
@@ -98,8 +107,8 @@ podman run --rm \
   localhost/comfyui:new2
 ```
 
-The container starts ComfyUI with `--listen 0.0.0.0`, port `8188`, and
-`--enable-manager`.
+The container starts ComfyUI with `--listen 0.0.0.0`, port `8188`,
+`--enable-manager`, and `--use-sage-attention`.
 
 ## Updating custom-node requirements
 
