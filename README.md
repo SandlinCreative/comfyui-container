@@ -3,7 +3,8 @@
 This project builds and runs [ComfyUI](https://github.com/SandlinCreative/ComfyUI) in a
 Podman container with NVIDIA GPU access. The image includes ComfyUI's Python
 dependencies, a consolidated set of custom-node dependencies, `ffmpeg`, and
-ComfyUI Manager support.
+ComfyUI Manager support. It also retains a C compiler and system headers in the
+runtime image because Triton JIT-compiles a CUDA driver helper during inference.
 
 ## Repository layout
 
