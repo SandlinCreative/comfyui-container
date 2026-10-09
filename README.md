@@ -4,7 +4,8 @@ This project builds and runs [ComfyUI](https://github.com/SandlinCreative/ComfyU
 Podman container with NVIDIA GPU access. The image includes ComfyUI's Python
 dependencies, a consolidated set of custom-node dependencies, `ffmpeg`, and
 ComfyUI Manager support. SageAttention 2.2.0 is compiled for the target GPU and
-enabled by default.
+enabled by default. The runtime image also retains a C compiler and system
+headers because Triton JIT-compiles a CUDA driver helper during inference.
 
 ## Repository layout
 
@@ -14,7 +15,7 @@ enabled by default.
 - `custom-node-reqs.txt` — dependencies required by the installed custom nodes.
 - `combine_requirements.py` — utility for combining requirements from multiple
   custom nodes.
-- `build_pod.sh` — builds the image as `comfyui:new2`.
+- `build_pod.sh` — builds the image as `comfyui:new3`.
 - `run_pod.sh` — starts the container with GPU access and persistent mounts.
 
 ## Clone the repository
@@ -52,7 +53,7 @@ From the repository root, run:
 ./build_pod.sh
 ```
 
-This builds the image with the tag `comfyui:new2`. The script uses
+This builds the image with the tag `comfyui:new3`. The script uses
 `$HOME/.cache/podman-tmp` as Podman's temporary directory; create that directory
 first if it does not exist:
 
@@ -86,12 +87,12 @@ model, and output directories into the container:
 
 Then open <http://localhost:8188>.
 
-The host paths in `run_pod.sh` are specific to the original machine:
+The Windows host paths in `run_pod.sh` are specific to the original machine:
 
 ```text
-/run/media/jeremy/55D/comfyui/custom_nodes
-/run/media/jeremy/55D/comfyui/models
-/run/media/jeremy/55D/comfyui/output
+Z:/comfyui/custom_nodes
+Z:/comfyui/models
+Z:/comfyui/output
 ```
 
 Edit those paths before running the script on another system. An equivalent
@@ -101,10 +102,10 @@ manual command is:
 podman run --rm \
   --device nvidia.com/gpu=all \
   -p 8188:8188 \
-  -v /path/to/custom_nodes:/app/custom_nodes:rw \
-  -v /path/to/models:/app/models:rw \
-  -v /path/to/output:/app/output:rw \
-  localhost/comfyui:new2
+  -v Z:/comfyui/custom_nodes:/app/custom_nodes:rw \
+  -v Z:/comfyui/models:/app/models:rw \
+  -v Z:/comfyui/output:/app/output:rw \
+  localhost/comfyui:new3
 ```
 
 The container starts ComfyUI with `--listen 0.0.0.0`, port `8188`,

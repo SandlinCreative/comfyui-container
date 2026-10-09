@@ -62,12 +62,14 @@ ENV CUDA_HOME="${CUDA_HOME_PATH}" \
     TORCH_CUDA_ARCH_LIST="${SAGEATTENTION_CUDA_ARCH}"
 
 # Install consolidated application and node requirements
-COPY requirements.txt .
+COPY custom-node-reqs.txt .
+COPY ComfyUI/requirements.txt .
+COPY ComfyUI/manager_requirements.txt .
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --no-cache-dir \
       --index-url "${TORCH_INDEX_URL}" \
       --extra-index-url "${EXTRA_INDEX_URL}" \
-      -r requirements.txt
+      -r custom-node-reqs.txt -r requirements.txt -r manager_requirements.txt
 
 # PyPI only provides the legacy SageAttention 1.x package. KJNodes' LTX2
 # memory-efficient patch needs the CUDA-backed 2.2.0 API from upstream.
@@ -81,6 +83,16 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 # ---------- Stage 2: App image ----------
 FROM runtime-base AS app
+
+# Triton JIT-compiles its CUDA driver helper during inference, so the runtime
+# image needs a C compiler and the system C headers as well as the built venv.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        gcc \
+        libc6-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV CC=/usr/bin/gcc
 
 # Use the venv from the builder stage
 COPY --from=builder /opt/venv /opt/venv
