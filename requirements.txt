@@ -30,7 +30,7 @@ simpleeval>=1.0.0
 blake3
 
 # Non-essential application dependencies
-kornia>=0.7.1,<0.8.3
+kornia<0.8.3
 spandrel
 pydantic~=2.0
 pydantic-settings~=2.0
@@ -38,6 +38,18 @@ PyOpenGL>=3.1.8
 comfy-angle
 
 # Custom node dependencies
+
+# ComfyUI-ListHelper
+reportlab
+
+# ComfyUI NVIDIA RTX Nodes
+nvidia-vfx
+
+# ComfyUI LayerStyle
+blend_modes
+pymatting
+colour-science
+loguru
 
 # ComfyUI-Easy-Use
 diffusers

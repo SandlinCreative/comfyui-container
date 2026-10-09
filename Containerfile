@@ -3,7 +3,7 @@
 # ---------- Runtime base image ----------
 
 FROM python:3.11-slim AS runtime-base
-ENV PYTHONUNBUFFERED=1 PIP_DISABLE_PIP_VERSION_CHECK=1
+ENV PYTHONUNBUFFERED=1 PIP_DISABLE_PIP_VERSION_CHECK=1 CC=gcc
 WORKDIR /app
 
 RUN apt-get update && \
@@ -12,6 +12,8 @@ RUN apt-get update && \
         libglib2.0-0 \
         git \
         ffmpeg \
+        gcc \
+        libc6-dev \
     && rm -rf /var/lib/apt/lists/*
 
 
